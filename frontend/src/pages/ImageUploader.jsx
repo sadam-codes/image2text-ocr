@@ -33,7 +33,7 @@ const OCRUploader = () => {
     return (
         <div className="min-h-screen bg-white flex items-center justify-center px-4 py-8">
             <div className="bg-white rounded-xl shadow-md p-8 w-full max-w-2xl">
-                <h1 className="text-2xl font-bold text-black text-center mb-6">
+                <h1 className="text-2xl font-bold text-black text-center mb-5">
                     OCR Text Extractor
                 </h1>
 
