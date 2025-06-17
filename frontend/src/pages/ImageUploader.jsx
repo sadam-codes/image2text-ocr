@@ -31,39 +31,42 @@ const OCRUploader = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-200 flex items-center justify-center p-6">
-            <div className="bg-white rounded-3xl shadow-2xl p-10 w-full max-w-3xl space-y-8 border border-blue-200">
-                <h1 className="text-3xl font-extrabold text-center text-blue-800 drop-shadow-sm">
-                    🧠 AI-Powered OCR Text Extractor
+        <div className="min-h-screen bg-white flex items-center justify-center px-4 py-8">
+            <div className="bg-white rounded-xl shadow-md p-8 w-full max-w-2xl">
+                <h1 className="text-2xl font-bold text-black text-center mb-6">
+                    OCR Text Extractor
                 </h1>
 
-                <div className="flex flex-col items-center gap-4">
+                <div className="space-y-4">
                     <input
                         type="file"
                         accept="image/*"
                         onChange={handleFileChange}
-                        className="block text-sm text-gray-600 file:mr-4 file:py-2 file:px-6 file:rounded-full file:border-0 file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600 cursor-pointer"
+                        className="block w-full text-sm text--black border border-white rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-black"
                     />
 
                     <button
                         onClick={handleUpload}
-                        className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white py-3 px-6 rounded-full text-lg font-semibold shadow-md transition duration-200"
+                        className="w-full bg-black text-white py-2 px-4 rounded-md font-medium transition"
                         disabled={loading}
                     >
-                        {loading ? '🔄 Extracting Text...' : '🚀 Upload & Extract Text'}
+                        {loading ? 'Extracting Text...' : 'Upload & Extract Text'}
                     </button>
-                </div>
 
-                {ocrResult && (
-                    <div className="mt-6">
-                        <h2 className="text-xl font-semibold text-gray-700 mb-2">📜 Extracted Text</h2>
-                        <div className="bg-gray-100 rounded-xl p-4 border text-sm leading-relaxed max-h-[300px] overflow-y-auto">
-                            <pre className="whitespace-pre-wrap break-words text-gray-800">{ocrResult}</pre>
+                    {ocrResult && (
+                        <div>
+                            <h2 className="text-lg font-semibold text-black mb-2">Extracted Text</h2>
+                            <textarea
+                                value={ocrResult}
+                                readOnly
+                                rows={10}
+                                className="w-full p-3 border border-black rounded-md bg-white text-black focus:outline-none focus:ring-2 focus:ring-black"
+                            />
                         </div>
-                    </div>
-                )}
+                    )}
 
-                {error && <p className="text-red-600 text-sm text-center font-medium">❌ {error}</p>}
+                    {error && <p className="text-black text-sm text-center font-medium">{error}</p>}
+                </div>
             </div>
         </div>
     );
