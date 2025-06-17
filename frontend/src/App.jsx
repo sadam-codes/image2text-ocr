@@ -1,10 +1,14 @@
 import React from 'react'
-import ImageUploader  from './pages/ImageUploader'
+import { Toaster } from 'react-hot-toast';
+import ImageUploader from './pages/ImageUploader'
 
 
 function App() {
   return (
-    <ImageUploader />
+    <>
+      <Toaster position="top-right" reverseOrder={false} />
+      <ImageUploader />
+    </>
   )
 }
 

@@ -1,30 +1,43 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const OCRUploader = () => {
     const [file, setFile] = useState(null);
     const [ocrResult, setOcrResult] = useState('');
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
 
     const handleFileChange = (e) => {
-        setFile(e.target.files[0]);
+        const selectedFile = e.target.files[0];
+        if (!selectedFile) {
+            toast.error('No file selected');
+            return;
+        }
+        setFile(selectedFile);
         setOcrResult('');
-        setError('');
+        toast.success('Image selected');
     };
 
     const handleUpload = async () => {
-        if (!file) return setError('Please select an image file.');
+        if (!file) {
+            toast.error('Please select an image file before uploading.');
+            return;
+        }
+
         setLoading(true);
+        toast.loading('Extracting text...');
         const formData = new FormData();
         formData.append('image', file);
 
         try {
-            const res = await axios.post('http://localhost:4000/upload', formData);
+            const res = await axios.post('http://localhost:4000/api/ocr/upload', formData);
+
             setOcrResult(res.data.text);
-            setError('');
+            toast.dismiss();
+            toast.success('OCR Successful!');
         } catch (err) {
-            setError('OCR failed. Please try again.');
+            toast.dismiss();
+            toast.error('OCR failed. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -42,7 +55,7 @@ const OCRUploader = () => {
                         type="file"
                         accept="image/*"
                         onChange={handleFileChange}
-                        className="block w-full text-sm text--black border border-white rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-black"
+                        className="block w-full text-sm text-black border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-black"
                     />
 
                     <button
@@ -50,7 +63,7 @@ const OCRUploader = () => {
                         className="w-full bg-black text-white py-2 px-4 rounded-md font-medium transition"
                         disabled={loading}
                     >
-                        {loading ? 'Extracting Text...' : 'Upload & Extract Text'}
+                        {loading ? 'Processing...' : 'Upload & Extract Text'}
                     </button>
 
                     {ocrResult && (
@@ -64,8 +77,6 @@ const OCRUploader = () => {
                             />
                         </div>
                     )}
-
-                    {error && <p className="text-black text-sm text-center font-medium">{error}</p>}
                 </div>
             </div>
         </div>
