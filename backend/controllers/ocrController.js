@@ -15,17 +15,18 @@ export const uploadImage = async (req, res) => {
     const words = finalText.split(/\s+/);
     const chunks = [];
 
-    for (let i = 0; i < words.length; i += 300) {
-      const chunk = words.slice(i, i + 300).join(' ');
+    for (let i = 0; i < words.length; i += 1000) {
+      const chunk = words.slice(i, i + 1000).join(' ');
       chunks.push(chunk);
     }
+
 
     const saved = await ingestChunks(filename, chunks);
     res.json({ message: 'OCR + Vector ingest successful', chunks: saved });
 
   } catch (error) {
     res.status(500).json({ error: error.message });
-    console.error('OCR Upload Error:', error); 
+    console.error('OCR Upload Error:', error);
   } finally {
     await worker.terminate();
     fs.unlinkSync(imagePath);

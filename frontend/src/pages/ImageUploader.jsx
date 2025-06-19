@@ -58,17 +58,16 @@ const OCRUploader = () => {
             console.log('Search response:', res.data);
 
             const fullAnswer = res.data.answer || '';
-setAnswer(fullAnswer);
+            setAnswer(fullAnswer);
 
-// ✅ FIX: Start with first character immediately
-setTypedAnswer(fullAnswer.charAt(0) || '');
+            setTypedAnswer(fullAnswer.charAt(0) || '');
 
-let i = 0; // ✅ Start from 1, not 0
-const interval = setInterval(() => {
-  setTypedAnswer(prev => prev + fullAnswer.charAt(i));
-  i++;
-  if (i >= fullAnswer.length) clearInterval(interval);
-}, 20);
+            let i = 0;
+            const interval = setInterval(() => {
+                setTypedAnswer(prev => prev + fullAnswer.charAt(i));
+                i++;
+                if (i >= fullAnswer.length) clearInterval(interval);
+            }, 20);
 
         } catch (err) {
             console.error('Search failed:', err);
