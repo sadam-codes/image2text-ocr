@@ -57,6 +57,6 @@ ${queryText}
 
   const response = await llm.invoke(prompt);
   const answerText = response?.text?.trim() || "Sorry! Couldn't extract a valid response.";
-  
+
   return { text: answerText, chunks: filteredChunks };
 };
