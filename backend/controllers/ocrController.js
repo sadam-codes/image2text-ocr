@@ -41,12 +41,18 @@ export const fetchResults = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
 export const queryText = async (req, res) => {
   try {
-    const answer = await runQuery(req.query.q);
-    res.json({ query: req.query.q, answer: answer.text });
+    const { q, filename } = req.query;
+
+    if (!q || !filename) {
+      return res.status(400).json({ error: 'Missing query or filename' });
+    }
+
+    const answer = await runQuery(q, filename);
+    res.json({ query: q, answer: answer.text });
   } catch (err) {
+    console.error('Query Error:', err);
     res.status(500).json({ error: err.message });
   }
 };
